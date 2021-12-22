@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#66A3BB"
+    tools:context=".Login3">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="418dp"
+        android:layout_height="307dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ez_money"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        android:id="@+id/enterPrompt"
+        android:text="Enter OTP received on this Number"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textStyle="bold"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="50dp"
+        android:textSize="20sp"
+        android:layout_height="wrap_content"/>
+
+    <com.murtaza.simplifiedselfregistrationonmobilewallet.OtpEditText
+        android:layout_width="match_parent"
+        android:id="@+id/otp"
+        app:layout_constraintTop_toBottomOf="@id/enterPrompt"
+        android:cursorVisible="false"
+        android:digits="1234567890"
+        android:inputType="number"
+        android:maxLength="6"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:textIsSelectable="false"
+        android:textSize="20sp"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:id="@+id/submit"
+        android:text="Enter"
+        android:backgroundTint="#000099"
+        app:layout_constraintTop_toBottomOf="@id/otp"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

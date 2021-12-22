@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "531229954853",
+    "project_id": "mobilewallet-dde1a",
+    "storage_bucket": "mobilewallet-dde1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531229954853:android:47e3bcd14711747f09c0cc",
+        "android_client_info": {
+          "package_name": "com.murtaza.simplifiedselfregistrationonmobilewallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531229954853-4h2h4u7ps0b2d1hpkbpha338v3eg4i7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhDw0iWA3BeIP4erm5u2zOFn7ieBOUbYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531229954853-4h2h4u7ps0b2d1hpkbpha338v3eg4i7t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".SearchFragment">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/back_arrow"
+        android:src="@drawable/ic_baseline_arrow_back_ios_24"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:id="@+id/searchicon"
+        android:src="@drawable/ic_baseline_search_24"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/searchbar"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:paddingLeft="10dp"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/contacts"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="30dp"
+        android:layout_height="match_parent"/>
+</FrameLayout>
