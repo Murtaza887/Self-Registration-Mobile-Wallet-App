@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -30,6 +31,9 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         contextOfApplication = getApplicationContext();
+
+        DBHelper helper = new DBHelper(Home.this);
+        SQLiteDatabase database = helper.getReadableDatabase();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

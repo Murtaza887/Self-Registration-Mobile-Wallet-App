@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -133,10 +135,68 @@ public class Login3 extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                        Toast.makeText(Login3.this, "Failed", Toast.LENGTH_SHORT).show();
+                        DBHelper helper = new DBHelper(Login3.this);
+                        SQLiteDatabase database = helper.getReadableDatabase();
+
+                        Cursor cursor = database.rawQuery("SELECT * FROM USERS WHERE number = '" + phoneNumber + "'", new String[]{});
+                        if (cursor != null)
+                            cursor.moveToFirst();
+
+                        do {
+                            Integer value1 = 0;
+                            if (cursor != null) {
+                                value1 = cursor.getInt(1);
+                            }
+                            String value2 = null;
+                            if (cursor != null) {
+                                value2 = cursor.getString(2);
+                            }
+                            Integer value3 = 0;
+                            if (cursor != null) {
+                                value3 = cursor.getInt(3);
+                            }
+                            try {
+                                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(code, editText.getText().toString());
+                                Integer finalValue = value3;
+                                mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            Intent intent = new Intent(Login3.this, Home.class);
+                                            intent.putExtra("number_", phoneNumber);
+                                            intent.putExtra("personName_", personName);
+                                            intent.putExtra("personGivenName_", personGivenName);
+                                            intent.putExtra("personFamilyName_", personFamilyName);
+                                            intent.putExtra("personEmail_", personEmail);
+                                            intent.putExtra("personId_", personId);
+                                            intent.putExtra("amount_", finalValue.toString());
+                                            startActivity(intent);
+                                        }
+                                        else {
+                                            Toast.makeText(Login3.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(Login3.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            catch (Exception e) {
+                                Intent intent = new Intent(Login3.this, Home.class);
+                                intent.putExtra("number_", phoneNumber);
+                                intent.putExtra("personName_", personName);
+                                intent.putExtra("personGivenName_", personGivenName);
+                                intent.putExtra("personFamilyName_", personFamilyName);
+                                intent.putExtra("personEmail_", personEmail);
+                                intent.putExtra("personId_", personId);
+                                intent.putExtra("amount_", value3.toString());
+                                startActivity(intent);
+                            }
+                        } while (cursor.moveToNext());
                     }
                 });
-
                 editText.getText().clear();
             }
         });

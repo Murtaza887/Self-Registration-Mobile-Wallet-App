@@ -49,6 +49,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
     implementation platform('com.google.firebase:firebase-bom:29.0.2')
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.google.firebase:firebase-core:20.0.1'

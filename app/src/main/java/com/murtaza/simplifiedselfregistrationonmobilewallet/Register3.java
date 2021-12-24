@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -84,14 +85,24 @@ public class Register3 extends AppCompatActivity {
                             intent.putExtra("amount_", 0);
                             startActivity(intent);
                         } catch (JSONException e) {
-                            TextView textView = findViewById(R.id.enterPrompt);
-                            textView.setText(e.toString());
+                            e.printStackTrace();
                         }
                     }
 
                     @Override
                     public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                        Toast.makeText(Register3.this, "Registration Failed", Toast.LENGTH_SHORT).show();
+                        DBHelper helper = new DBHelper(Register3.this);
+                        SQLiteDatabase database = helper.getWritableDatabase();
+                        helper.insertData(100, phoneNumber, 0, database);
+                        Intent intent = new Intent(Register3.this, Home.class);
+                        intent.putExtra("number_", phoneNumber);
+                        intent.putExtra("personName_", personName);
+                        intent.putExtra("personGivenName_", personGivenName);
+                        intent.putExtra("personFamilyName_", personFamilyName);
+                        intent.putExtra("personEmail_", personEmail);
+                        intent.putExtra("personId_", personId);
+                        intent.putExtra("amount_", 0);
+                        startActivity(intent);
                     }
                 });
                 editText.getText().clear();

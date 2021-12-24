@@ -85,18 +85,7 @@ public class AddMoney extends AppCompatActivity {
                                         }
 
                                         @Override
-                                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                                            DBHelper helper = new DBHelper(AddMoney.this);
-                                            SQLiteDatabase database = helper.getWritableDatabase();
-                                            ContentValues cv = new ContentValues();
-                                            cv.put("id", x);
-                                            cv.put("number", phoneNumber);
-                                            cv.put("amount", Integer.parseInt(user.getAmount()) + currentValue);
-                                            database.update("USERS", cv, "id=" + x, null);
-                                            Toast.makeText(AddMoney.this, "Rs. " + currentValue.toString() + " added to your Account", Toast.LENGTH_SHORT).show();
-                                            int toPut = Integer.parseInt(user.getAmount()) + currentValue;
-                                            Home.amount = Integer.toString(toPut);
-                                        }
+                                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {}
                                     });
                                 }
                             }
@@ -111,37 +100,35 @@ public class AddMoney extends AppCompatActivity {
                         DBHelper helper = new DBHelper(AddMoney.this);
                         SQLiteDatabase database = helper.getReadableDatabase();
 
-                        Cursor cursor = database.rawQuery("SELECT * FROM USERS", new String[]{});
-                        if (cursor != null) {
+                        Cursor cursor = database.rawQuery("SELECT * FROM USERS WHERE number = '" + phoneNumber + "'", new String[]{});
+                        if (cursor != null)
                             cursor.moveToFirst();
-                        }
 
                         do {
-                            int value1 = 0;
+                            Integer value1 = 0;
                             if (cursor != null) {
-                                value1 = cursor.getInt(0);
+                                value1 = cursor.getInt(1);
                             }
                             String value2 = null;
                             if (cursor != null) {
-                                value2 = cursor.getString(1);
+                                value2 = cursor.getString(2);
                             }
-                            String value3 = null;
+                            Integer value3 = 0;
                             if (cursor != null) {
-                                value3 = cursor.getString(2);
+                                value3 = cursor.getInt(3);
                             }
-                            if (value2.equals(phoneNumber)) {
-                                DBHelper helper2 = new DBHelper(AddMoney.this);
-                                SQLiteDatabase database2 = helper.getWritableDatabase();
-                                ContentValues cv = new ContentValues();
-                                cv.put("id", value1);
-                                cv.put("number", phoneNumber);
-                                cv.put("amount", Integer.parseInt(value3) + currentValue);
-                                database2.update("USERS", cv, "id=" + value1, null);
-                                Toast.makeText(AddMoney.this, "Rs. " + currentValue.toString() + " added to your Account", Toast.LENGTH_SHORT).show();
-                                int toPut = Integer.parseInt(value3) + currentValue;
-                                Home.amount = Integer.toString(toPut);
-                            }
-                        } while(cursor.moveToNext());
+                            DBHelper helper2 = new DBHelper(AddMoney.this);
+                            SQLiteDatabase database2 = helper2.getWritableDatabase();
+
+                            ContentValues cv = new ContentValues();
+                            cv.put("id", value1);
+                            cv.put("number", phoneNumber);
+                            cv.put("amount", value3 + currentValue);
+                            database.update("USERS", cv, "id=" + value1, null);
+                            Toast.makeText(AddMoney.this, "Rs. " + currentValue.toString() + " added to your Account", Toast.LENGTH_SHORT).show();
+                            int toPut = value3 + currentValue;
+                            Home.amount = Integer.toString(toPut);
+                        } while (cursor.moveToNext());
                     }
                 });
             }

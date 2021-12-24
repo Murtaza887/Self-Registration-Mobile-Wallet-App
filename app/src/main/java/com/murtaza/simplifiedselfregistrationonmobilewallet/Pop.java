@@ -3,6 +3,9 @@ package com.murtaza.simplifiedselfregistrationonmobilewallet;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -67,7 +70,7 @@ public class Pop extends AppCompatActivity {
                                     new AsyncHttpClient().post(Pop.this, url2, requestParams, new AsyncHttpResponseHandler() {
                                         @Override
                                         public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                                            FcmNotificationsSender sender = new FcmNotificationsSender("eHEnQOFvT2Sqq0tsvfKjLR:APA91bHwu7ooulCCBTHG1h1W5i1xT4FXGZ9r8oJSO4Kmz3HtUQV1xhbll4QmuD_d2BejpRgACpVbw10HQVp8qDgqLqokB5OrSouVVKV6WqOJbCz0i-O5MVRq1s_pTVxt11MZxu_7lZuu", "Money Recieved", "Rs. " + Integer.parseInt(editText.getText().toString()) + " recieved from +923345820814", getApplicationContext(),Pop.this);
+                                            FcmNotificationsSender sender = new FcmNotificationsSender("f_nFYMBCSTqV_loMADFXGf:APA91bG5CF13Ajt2bML_IIgfcdpl_rAr2MpHTa3vhpMiuT3V5XzM9rJoKjW69Q3Oto3W4g6JdedXIH-gTvjON6OeOOJELEnxlZFNGzoJhR8BovBI39qdAa7LJHsuOfn32dTZxxoLEaan", "Money Recieved", "Rs. " + Integer.parseInt(editText.getText().toString()) + " recieved from +923345820814", getApplicationContext(),Pop.this);
                                             sender.SendNotifications();
                                             Toast.makeText(Pop.this, "Rs. " + Integer.parseInt(editText.getText().toString()) + " sent to " + phoneNumber, Toast.LENGTH_SHORT).show();
                                             updateCurrentUser();
@@ -88,7 +91,40 @@ public class Pop extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                        DBHelper helper = new DBHelper(Pop.this);
+                        SQLiteDatabase database = helper.getReadableDatabase();
 
+                        Cursor cursor = database.rawQuery("SELECT * FROM USERS WHERE number = '" + phoneNumber + "'", new String[]{});
+                        if (cursor != null)
+                            cursor.moveToFirst();
+
+                        do {
+                            Integer value1 = 0;
+                            if (cursor != null) {
+                                value1 = cursor.getInt(1);
+                            }
+                            String value2 = null;
+                            if (cursor != null) {
+                                value2 = cursor.getString(2);
+                            }
+                            Integer value3 = 0;
+                            if (cursor != null) {
+                                value3 = cursor.getInt(3);
+                            }
+                            DBHelper helper2 = new DBHelper(Pop.this);
+                            SQLiteDatabase database2 = helper2.getWritableDatabase();
+
+                            ContentValues cv = new ContentValues();
+                            cv.put("id", value1);
+                            cv.put("number", value2);
+                            cv.put("amount", value3 + Integer.parseInt(editText.getText().toString()));
+                            database.update("USERS", cv, "id=" + value1, null);
+
+                            FcmNotificationsSender sender = new FcmNotificationsSender("f_nFYMBCSTqV_loMADFXGf:APA91bG5CF13Ajt2bML_IIgfcdpl_rAr2MpHTa3vhpMiuT3V5XzM9rJoKjW69Q3Oto3W4g6JdedXIH-gTvjON6OeOOJELEnxlZFNGzoJhR8BovBI39qdAa7LJHsuOfn32dTZxxoLEaan", "Money Recieved", "Rs. " + Integer.parseInt(editText.getText().toString()) + " recieved from +923345820814", getApplicationContext(),Pop.this);
+                            sender.SendNotifications();
+                            Toast.makeText(Pop.this, "Rs. " + Integer.parseInt(editText.getText().toString()) + " sent to " + phoneNumber, Toast.LENGTH_SHORT).show();
+                            updateCurrentUser();
+                        } while (cursor.moveToNext());
                     }
                 });
             }
@@ -134,7 +170,37 @@ public class Pop extends AppCompatActivity {
 
             @Override
             public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                DBHelper helper = new DBHelper(Pop.this);
+                SQLiteDatabase database = helper.getReadableDatabase();
 
+                Cursor cursor = database.rawQuery("SELECT * FROM USERS WHERE number = '" + Home.phoneNumber + "'", new String[]{});
+                if (cursor != null)
+                    cursor.moveToFirst();
+
+                do {
+                    Integer value1 = 0;
+                    if (cursor != null) {
+                        value1 = cursor.getInt(1);
+                    }
+                    String value2 = null;
+                    if (cursor != null) {
+                        value2 = cursor.getString(2);
+                    }
+                    Integer value3 = 0;
+                    if (cursor != null) {
+                        value3 = cursor.getInt(3);
+                    }
+                    DBHelper helper2 = new DBHelper(Pop.this);
+                    SQLiteDatabase database2 = helper2.getWritableDatabase();
+
+                    ContentValues cv = new ContentValues();
+                    cv.put("id", value1);
+                    cv.put("number", value2);
+                    cv.put("amount", value3 - Integer.parseInt(editText.getText().toString()));
+                    database.update("USERS", cv, "id=" + value1, null);
+                    int toPut = value3 - Integer.parseInt(editText.getText().toString());
+                    Home.amount = Integer.toString(toPut);
+                } while (cursor.moveToNext());
             }
         });
     }
