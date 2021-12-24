@@ -78,7 +78,7 @@ public class AddMoney extends AppCompatActivity {
                                         public void onSuccess(int i, Header[] headers, byte[] bytes) {
                                             Toast.makeText(AddMoney.this, "Rs. " + currentValue.toString() + " added to your Account", Toast.LENGTH_SHORT).show();
                                             FirebaseMessaging.getInstance().subscribeToTopic("all");
-                                            FcmNotificationsSender sender = new FcmNotificationsSender("/topics/all", "Money Added", "Rs. " + currentValue.toString() + " added to your Account", getApplicationContext(),AddMoney.this);
+                                            FcmNotificationsSender sender = new FcmNotificationsSender("dipw60j5R8ilOKTjXs23Vp:APA91bGfaQtCW-7BUkhlV3kL4SnEoKgH1dBtF3hB6A7GIPS3y67qC0S1oP6RF03t2GEWTmuRzPt0J8T3IUowaQ_TKego83Txei_Wt-MQhV6yfYAQW9udnyE2bl_i6wUoOC23iKJApFkK", "Money Added", "Rs. " + currentValue.toString() + " added to your Account", getApplicationContext(),AddMoney.this);
                                             sender.SendNotifications();
                                             int toPut = Integer.parseInt(user.getAmount()) + currentValue;
                                             Home.amount = Integer.toString(toPut);

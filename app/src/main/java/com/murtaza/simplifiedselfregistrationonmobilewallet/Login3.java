@@ -49,8 +49,7 @@ public class Login3 extends AppCompatActivity {
         actionBar.hide();
         setContentView(R.layout.activity_login3);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("all");
-        FcmNotificationsSender sender = new FcmNotificationsSender("/topics/all", "OTP", "124121", getApplicationContext(),Login3.this);
+        FcmNotificationsSender sender = new FcmNotificationsSender("dipw60j5R8ilOKTjXs23Vp:APA91bGfaQtCW-7BUkhlV3kL4SnEoKgH1dBtF3hB6A7GIPS3y67qC0S1oP6RF03t2GEWTmuRzPt0J8T3IUowaQ_TKego83Txei_Wt-MQhV6yfYAQW9udnyE2bl_i6wUoOC23iKJApFkK", "OTP", "124121", getApplicationContext(),Login3.this);
         sender.SendNotifications();
 
         mAuth = FirebaseAuth.getInstance();
